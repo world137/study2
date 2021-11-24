@@ -34,7 +34,9 @@ def Naive(t,p):
     m=len(p)
     s=[]
     i=0
-    for i in range(n-m):
+    for i in range(n-m+1):
+        # print(i)
+        # print(t[i:i+m])
         if p==t[i:i+m]:
             s.append(i+1)
     return s
@@ -42,17 +44,19 @@ def Naive(t,p):
     # o((n-m+1)(m)) วน n-m+1 รอบ if อีกไม่เกิน m
 
 
-with open("9.0.txt", "r") as file:
+with open("9.2.txt", "r") as file:
     inputLst = file.read().splitlines()
 
 pattern=inputLst[2].split()
 text=inputLst[3].split()
+new_text = text + text[0:len(pattern)-1]
 
 if(len(text) >= len(pattern)):
     print('\nKMP algoritim')
-    k1=KMP(text,pattern)
-    textRV=text[::-1] 
-    k2=KMP(textRV,pattern)
+    k1=KMP(new_text,pattern)
+    textRV=text[::-1]
+    new_text_rv = textRV + textRV[0:len(pattern)-1]
+    k2=KMP(new_text_rv,pattern)
     print(prefixKMP(pattern))
     print(len(k1)+len(k2))
     for i in k1:
@@ -61,8 +65,8 @@ if(len(text) >= len(pattern)):
         print(len(text)-i+1,"RL")
 
     print('\nnaive string matching algoritim')
-    n1=Naive(text, pattern)
-    n2=Naive(textRV, pattern)
+    n1=Naive(new_text, pattern)
+    n2=Naive(new_text_rv, pattern)
     print(len(n1)+len(n2))
     for i in n1:
         print(i,"LR")
